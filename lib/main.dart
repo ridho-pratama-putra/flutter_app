@@ -374,23 +374,16 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   void _isAnswerCorrect(bool userAnswer) {
-    switch (questions[_questionsIndex].keyAnswer) {
-      case true:
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("you're Right"),
-        ));
-        break;
-      case false:
-        String fact = questions[_questionsIndex].fact;
-        fact = fact.replaceAll('False', 'Wrong');
-        String correction = 'you\'re $fact';
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(correction),
-        ));
-        break;
-      default:
-        throw Exception();
+    String fact = questions[_questionsIndex].fact;
+    if (questions[_questionsIndex].keyAnswer == userAnswer) {
+      fact = fact.replaceAll('True', 'Right').replaceAll('False', 'Right');
+    } else {
+      fact = fact.replaceAll('False', 'Wrong').replaceAll('True', 'Wrong');
     }
+    String correction = 'you\'re $fact';
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(correction),
+    ));
     setState(() {
       if (_questionsIndex == questions.length - 1) {
         _questionsIndex = 0;
@@ -419,9 +412,11 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           MyButton(
-              onPressedCallback: () => _isAnswerCorrect(true), child: const Text('Correct')),
+              onPressedCallback: () => _isAnswerCorrect(true),
+              child: const Text('Correct')),
           MyButton(
-              onPressedCallback: () => _isAnswerCorrect(false), child: const Text('Wrong')),
+              onPressedCallback: () => _isAnswerCorrect(false),
+              child: const Text('Wrong')),
         ],
       ),
     );
