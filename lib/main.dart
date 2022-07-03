@@ -1,6 +1,8 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_app/question.dart';
+import 'package:flutter_app/right_or_wrong_button.dart';
 import 'button.dart';
 import 'firebase_options.dart';
 import 'constants.dart';
@@ -70,30 +72,12 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
         ),
         body: _questionsIndex != questions.length
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(questions[_questionsIndex].question),
-                  ],
-                ),
-              )
+            ? QuestionWidget(question: questions[_questionsIndex].question)
             : const Center(
                 child: Text("you di dit"),
               ),
         bottomSheet: _questionsIndex != questions.length
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  MyButton(
-                      onPressedCallback: () => _isAnswerCorrect(true),
-                      child: const Text('Correct')),
-                  MyButton(
-                      onPressedCallback: () => _isAnswerCorrect(false),
-                      child: const Text('Wrong')),
-                ],
-              )
+            ? RightOrWrongButton(isAnswerCorrect: _isAnswerCorrect)
             : null);
   }
 }
