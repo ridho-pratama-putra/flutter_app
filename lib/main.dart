@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: _questionsIndex != questions.length
             ? QuestionWidget(question: questions[_questionsIndex].question)
             : const Center(
-                child: Text("you di dit"),
+                child: Text("you did it", style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.green)),
               ),
         bottomSheet: _questionsIndex != questions.length
             ? RightOrWrongButton(isAnswerCorrect: _isAnswerCorrect)
