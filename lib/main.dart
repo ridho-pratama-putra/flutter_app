@@ -51,13 +51,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _isAnswerCorrect(bool userAnswer) {
     String fact = questions[_questionsIndex].fact;
+    final int currentScore;
     if (questions[_questionsIndex].keyAnswer == userAnswer) {
       fact = fact.replaceAll('True', 'Right').replaceAll('False', 'Right');
+      currentScore = questions[_questionsIndex].rightScore;
     } else {
       fact = fact.replaceAll('False', 'Wrong').replaceAll('True', 'Wrong');
+      currentScore = questions[_questionsIndex].wrongScore;
     }
 
-    final String correction = 'you\'re $fact';
+
+    final String correction = 'you\'re $fact - you get score $currentScore';
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(correction),
     ));
