@@ -2,6 +2,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_app/question.dart';
+import 'package:flutter_app/reset_question_button.dart';
 import 'package:flutter_app/right_or_wrong_button.dart';
 import 'button.dart';
 import 'firebase_options.dart';
@@ -78,6 +79,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
         bottomSheet: _questionsIndex != questions.length
             ? RightOrWrongButton(isAnswerCorrect: _isAnswerCorrect)
-            : null);
+            : ResetQuestionButton(resetQuestion: _resetQuestion));
+  }
+
+  void _resetQuestion() {
+    setState(() {
+      _questionsIndex = 0;
+    });
   }
 }
