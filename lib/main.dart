@@ -53,15 +53,12 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       fact = fact.replaceAll('False', 'Wrong').replaceAll('True', 'Wrong');
     }
-    String correction = 'you\'re $fact';
+
+    final String correction = 'you\'re $fact';
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(correction),
     ));
     setState(() {
-      if (_questionsIndex == questions.length - 1) {
-        _questionsIndex = 0;
-        return;
-      }
       _questionsIndex++;
     });
   }
@@ -69,29 +66,34 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(questions[_questionsIndex].question),
-          ],
+        appBar: AppBar(
+          title: Text(widget.title),
         ),
-      ),
-      bottomSheet: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          MyButton(
-              onPressedCallback: () => _isAnswerCorrect(true),
-              child: const Text('Correct')),
-          MyButton(
-              onPressedCallback: () => _isAnswerCorrect(false),
-              child: const Text('Wrong')),
-        ],
-      ),
-    );
+        body: _questionsIndex != questions.length
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(questions[_questionsIndex].question),
+                  ],
+                ),
+              )
+            : const Center(
+                child: Text("you di dit"),
+              ),
+        bottomSheet: _questionsIndex != questions.length
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  MyButton(
+                      onPressedCallback: () => _isAnswerCorrect(true),
+                      child: const Text('Correct')),
+                  MyButton(
+                      onPressedCallback: () => _isAnswerCorrect(false),
+                      child: const Text('Wrong')),
+                ],
+              )
+            : null);
   }
 }
