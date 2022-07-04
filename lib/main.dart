@@ -47,6 +47,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _questionsIndex = 0;
+  int _score = 0;
   List<PairQuestionAndAnswer> questions = QUESTIONS;
 
   void _isAnswerCorrect(bool userAnswer) {
@@ -60,13 +61,20 @@ class _MyHomePageState extends State<MyHomePage> {
       currentScore = questions[_questionsIndex].wrongScore;
     }
 
-
     final String correction = 'you\'re $fact - you get score $currentScore';
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(correction),
     ));
     setState(() {
       _questionsIndex++;
+      _score += currentScore;
+    });
+  }
+
+  void _resetQuestion() {
+    setState(() {
+      _questionsIndex = 0;
+      _score = 0;
     });
   }
 
@@ -76,19 +84,30 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: _questionsIndex != questions.length
-            ? QuestionWidget(question: questions[_questionsIndex].question)
-            : const Center(
-                child: Text("you did it", style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.green)),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text("your score"),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: Text("$_score", style: const TextStyle(fontSize: 40, color: Colors.red),),
               ),
+              _questionsIndex != questions.length
+                  ? QuestionWidget(
+                      question: questions[_questionsIndex].question)
+                  : const Center(
+                      child: Text("you did it",
+                          style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green)),
+                    ),
+            ],
+          ),
+        ),
         bottomSheet: _questionsIndex != questions.length
             ? RightOrWrongButton(isAnswerCorrect: _isAnswerCorrect)
             : ResetQuestionButton(resetQuestion: _resetQuestion));
-  }
-
-  void _resetQuestion() {
-    setState(() {
-      _questionsIndex = 0;
-    });
   }
 }
