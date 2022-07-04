@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_app/question.dart';
 import 'package:flutter_app/reset_question_button.dart';
 import 'package:flutter_app/right_or_wrong_button.dart';
+import 'package:flutter_app/score.dart';
 import 'button.dart';
 import 'firebase_options.dart';
 import 'constants.dart';
@@ -91,18 +92,15 @@ class _MyHomePageState extends State<MyHomePage> {
               const Text("your score"),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
-                child: Text("$_score", style: const TextStyle(fontSize: 40, color: Colors.red),),
+                child: Text("$_score",
+                    style: TextStyle(
+                        fontSize: 40,
+                        color: _score >= 1 ? Colors.blue : Colors.red)),
               ),
               _questionsIndex != questions.length
                   ? QuestionWidget(
                       question: questions[_questionsIndex].question)
-                  : const Center(
-                      child: Text("you did it",
-                          style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green)),
-                    ),
+                  : ScoreWidget(score: _score)
             ],
           ),
         ),
