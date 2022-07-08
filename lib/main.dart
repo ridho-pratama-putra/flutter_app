@@ -141,6 +141,10 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.deepOrange),
+                  foregroundColor: MaterialStateProperty.all(Colors.white)
+                ),
                   onPressed: () {
                     setState(() {
                       _questionsIndex += 1;
