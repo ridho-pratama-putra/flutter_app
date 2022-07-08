@@ -5,23 +5,27 @@ import 'button.dart';
 class RightOrWrongButton extends StatelessWidget {
   final Function isAnswerCorrect;
 
-  const RightOrWrongButton({Key? key, required this.isAnswerCorrect}) : super(key: key);
+  const RightOrWrongButton({Key? key, required this.isAnswerCorrect})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          MyButton(
-              onPressedCallback: () => isAnswerCorrect(true),
-              child: const Text('Correct')),
-          MyButton(
-              onPressedCallback: () => isAnswerCorrect(false),
-              child: const Text('Wrong')),
-        ],
-      )
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        ElevatedButton(
+          onPressed: () => isAnswerCorrect(true),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.green)),
+          child: const Text('Correct'),
+        ),
+        ElevatedButton(
+          onPressed: () => isAnswerCorrect(false),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.red)),
+          child: const Text('Wrong'),
+        ),
+      ],
     );
   }
 }

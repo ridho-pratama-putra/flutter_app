@@ -92,13 +92,13 @@ class _MyHomePageState extends State<MyHomePage> {
           actionsAlignment: MainAxisAlignment.center,
           actions: [
             ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _score += currentScore;
-                  });
-                  Navigator.pop(context, true);
-                },
-                child: const Text('Ok'),
+              onPressed: () {
+                setState(() {
+                  _score += currentScore;
+                });
+                Navigator.pop(context, true);
+              },
+              child: const Text('Ok'),
             )
           ],
         );
@@ -130,25 +130,30 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      bottomSheet: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          if (_questionsIndex != questions.length &&
-              _questionsIndex != _questionAnswered)
-            RightOrWrongButton(isAnswerCorrect: _isAnswerCorrect)
-          else if (_questionsIndex != questions.length &&
-              _questionsIndex == _questionAnswered)
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _questionsIndex += 1;
-                  });
-                },
-                child: const Text("Next"))
-          else
-            ResetQuestionButton(resetQuestion: _resetQuestion)
-        ],
-      ),
+      bottomSheet: LayoutBuilder(builder: (context, constraints) {
+        if (_questionsIndex != questions.length &&
+            _questionsIndex != _questionAnswered) {
+          return RightOrWrongButton(isAnswerCorrect: _isAnswerCorrect);
+        } else if (_questionsIndex != questions.length &&
+            _questionsIndex == _questionAnswered) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _questionsIndex += 1;
+                    });
+                  },
+                  child: const Text("Next"))
+            ],
+          );
+        } else {
+          return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [ResetQuestionButton(resetQuestion: _resetQuestion)]);
+        }
+      }),
     );
   }
 }
