@@ -5,7 +5,6 @@ import 'package:flutter_app/question.dart';
 import 'package:flutter_app/reset_question_button.dart';
 import 'package:flutter_app/right_or_wrong_button.dart';
 import 'package:flutter_app/score.dart';
-import 'button.dart';
 import 'firebase_options.dart';
 import 'constants.dart';
 import 'pair_question_and_answer_model.dart';
@@ -50,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _questionsIndex = 0;
   int _score = 0;
   List<PairQuestionAndAnswer> questions = QUESTIONS;
+  int _questionAnswered = -1;
 
   void _isAnswerCorrect(bool userAnswer) {
     String fact = questions[_questionsIndex].fact;
@@ -63,12 +63,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     final String correction = 'you\'re $fact - you get score $currentScore';
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(correction),
-    ));
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //   content: Text(correction),
+    // ));
+
+    _moreAboutThisFact(correction, currentScore);
     setState(() {
-      _questionsIndex++;
-      _score += currentScore;
+      _questionAnswered += 1;
     });
   }
 
@@ -79,33 +80,75 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _moreAboutThisFact(String fact, int currentScore) async {
+    await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: SizedBox(
+            width: 1000,
+            child: Text(fact),
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _score += currentScore;
+                  });
+                  Navigator.pop(context, true);
+                },
+                child: const Text('Ok'),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text("your score"),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Text("$_score",
+                  style: TextStyle(
+                      fontSize: 40,
+                      color: _score >= 1 ? Colors.blue : Colors.red)),
+            ),
+            _questionsIndex != questions.length
+                ? QuestionWidget(question: questions[_questionsIndex].question)
+                : ScoreWidget(score: _score)
+          ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text("your score"),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: Text("$_score",
-                    style: TextStyle(
-                        fontSize: 40,
-                        color: _score >= 1 ? Colors.blue : Colors.red)),
-              ),
-              _questionsIndex != questions.length
-                  ? QuestionWidget(
-                      question: questions[_questionsIndex].question)
-                  : ScoreWidget(score: _score)
-            ],
-          ),
-        ),
-        bottomSheet: _questionsIndex != questions.length
-            ? RightOrWrongButton(isAnswerCorrect: _isAnswerCorrect)
-            : ResetQuestionButton(resetQuestion: _resetQuestion));
+      ),
+      bottomSheet: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          if (_questionsIndex != questions.length &&
+              _questionsIndex != _questionAnswered)
+            RightOrWrongButton(isAnswerCorrect: _isAnswerCorrect)
+          else if (_questionsIndex != questions.length &&
+              _questionsIndex == _questionAnswered)
+            ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _questionsIndex += 1;
+                  });
+                },
+                child: const Text("Next"))
+          else
+            ResetQuestionButton(resetQuestion: _resetQuestion)
+        ],
+      ),
+    );
   }
 }
