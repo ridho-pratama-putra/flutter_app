@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'button.dart';
-
 class RightOrWrongButton extends StatelessWidget {
   final Function isAnswerCorrect;
 
