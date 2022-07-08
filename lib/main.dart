@@ -92,14 +92,15 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           actionsAlignment: MainAxisAlignment.center,
           actions: [
-            ElevatedButton(
+            TextButton(
               onPressed: () {
                 setState(() {
                   _score += currentScore;
                 });
                 Navigator.pop(context, true);
               },
-              child: const Text('Ok'),
+              style: TextButton.styleFrom(primary: Colors.blue),
+              child: const Text('Ok!'),
             )
           ],
         );
@@ -140,11 +141,10 @@ class _MyHomePageState extends State<MyHomePage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.deepOrange),
-                  foregroundColor: MaterialStateProperty.all(Colors.white)
-                ),
+              OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                      primary: Colors.orange,
+                      side: const BorderSide(color: Colors.black)),
                   onPressed: () {
                     setState(() {
                       _questionsIndex += 1;
