@@ -14,13 +14,17 @@ class RightOrWrongButton extends StatelessWidget {
         ElevatedButton(
           onPressed: () => isAnswerCorrect(true),
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.green)),
+            backgroundColor: MaterialStateProperty.all(Colors.green),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+          ),
           child: const Text('Correct'),
         ),
         ElevatedButton(
           onPressed: () => isAnswerCorrect(false),
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.red)),
+            backgroundColor: MaterialStateProperty.all(Colors.red),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+          ),
           child: const Text('Wrong'),
         ),
       ],
