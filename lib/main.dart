@@ -78,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _questionsIndex = 0;
       _score = 0;
+      _questionAnswered = -1;
     });
   }
 
