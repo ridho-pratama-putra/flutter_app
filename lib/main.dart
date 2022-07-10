@@ -64,9 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     final String correction = 'you\'re $fact - you get score $currentScore';
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //   content: Text(correction),
-    // ));
 
     _moreAboutThisFact(correction, currentScore);
     setState(() {
