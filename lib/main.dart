@@ -87,6 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          key: const Key('moreAboutThisFactAlertDialog'),
           title: SizedBox(
             width: 1000,
             child: Text(fact),
@@ -94,6 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
           actionsAlignment: MainAxisAlignment.center,
           actions: [
             TextButton(
+              key: const Key('moreAboutThisFactOkButton'),
               onPressed: () {
                 setState(() {
                   _score += currentScore;
@@ -123,6 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
               child: Text("$_score",
+                  key: const Key('scoreText'),
                   style: TextStyle(
                       fontSize: 40,
                       color: _score >= 1 ? Colors.blue : Colors.red)),
